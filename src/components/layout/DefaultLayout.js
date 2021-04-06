@@ -3,8 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import Footer from "./partials/Footer.js";
 import Header from "./partials/Header.js";
 
-import "./defaultlayout.css";
-const DefaultLayout = ({ children }) => {
+import "./defaultlayout.style.css";
+const DefaultLayout = () => {
   return (
     <Container fluid>
       <Row>
@@ -14,7 +14,6 @@ const DefaultLayout = ({ children }) => {
         <Col xs={8}>
           <div className="main">
             <Header />
-            {children}
             <Footer />
           </div>
         </Col>
