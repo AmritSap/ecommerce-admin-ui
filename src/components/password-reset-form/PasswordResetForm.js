@@ -1,32 +1,25 @@
 import React, { useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
-import "./loginForm.style.css";
+import "./passwordReset.style.css";
 
-const initialState = {
-  email: "",
-  password: "",
-};
-const LoginForm = () => {
-  const [login, setLogin] = useState(initialState);
+const PasswordResetForm = () => {
+  const [email, setEmail] = useState("");
 
   // Hnadle on change gets the value when we type and set it to the local state
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setLogin({
-      ...login,
-      [name]: value,
-    });
-    console.log(login);
+    const { value } = e.target;
+    setEmail(value);
+    console.log(email);
   };
 
   // HandleOnSubmit submits the form when we login
   const hnadleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(login);
+    console.log(email);
   };
 
   return (
-    <div className="login-form">
+    <div className="password-reset-form">
       <Card className="py-4 px-4">
         <Form onSubmit={hnadleOnSubmit}>
           <Form.Group controlId="formBasicEmail">
@@ -35,34 +28,23 @@ const LoginForm = () => {
               name="email"
               type="email"
               placeholder="Enter email"
-              value={login.email}
+              value={email}
               onChange={handleOnChange}
               required
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={login.password}
-              onChange={handleOnChange}
-              required
-            />
-          </Form.Group>
           <Button variant="primary" type="submit">
             Submit
           </Button>
         </Form>
 
-        <a href="/reset-password" className="text-right">
-          Forgot Password?
+        <a href="/" className="text-right">
+          Login Now
         </a>
       </Card>
     </div>
   );
 };
 
-export default LoginForm;
+export default PasswordResetForm;
