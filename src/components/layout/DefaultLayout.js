@@ -1,24 +1,23 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Jumbotron } from "react-bootstrap";
 import Footer from "./partials/Footer.js";
 import Header from "./partials/Header.js";
-
+import { SideBarNav } from "../sidebar/SideBarNav.js";
 import "./defaultlayout.style.css";
-const DefaultLayout = () => {
+const DefaultLayout = ({ children }) => {
   return (
-    <Container fluid>
-      <Row>
-        <Col xs={4}>
-          <div className="left-bar">I am from the left menu</div>
-        </Col>
-        <Col xs={8}>
-          <div className="main">
-            <Header />
-            <Footer />
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <div className="default-layout">
+      <div className="left-bar">
+        <div className="admin-logo p-2 mb-5">Admin Panel</div>
+        <SideBarNav />
+      </div>
+      <div className="main">
+        <Header />
+        <Jumbotron>{children}</Jumbotron>
+
+        <Footer />
+      </div>
+    </div>
   );
 };
 

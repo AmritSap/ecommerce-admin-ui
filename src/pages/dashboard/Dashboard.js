@@ -1,10 +1,11 @@
 import React from 'react'
+import DefaultLayout from '../../components/layout/DefaultLayout'
 
 const Dashboard =   () => {
     return (
-        <div>
+        <DefaultLayout>
             Welcome to admin Dashboard
-        </div>
+        </DefaultLayout>
     )
 }
 

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import "./App.css";
 import Dashboard from "./pages/dashboard/Dashboard.js";
+import Category from "./pages/category/Category.js";
 import PasswordReset from "./pages/password-reset/Password-reset";
 function App() {
   return (
@@ -13,10 +14,13 @@ function App() {
             <Dashboard />
           </Route>
 
+          <Route path="/category">
+            <Category />
+          </Route>
           <Route path="/reset-password">
             <PasswordReset />
           </Route>
-          
+
           <Route path="/">
             <Login />
           </Route>
