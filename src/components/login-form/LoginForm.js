@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+
 import "./loginForm.style.css";
 
 const initialState = {
@@ -7,6 +9,7 @@ const initialState = {
   password: "",
 };
 const LoginForm = () => {
+  const history = useHistory();
   const [login, setLogin] = useState(initialState);
 
   // Hnadle on change gets the value when we type and set it to the local state
@@ -23,6 +26,7 @@ const LoginForm = () => {
   const hnadleOnSubmit = (e) => {
     e.preventDefault();
     console.log(login);
+    history.push("/dashboard");
   };
 
   return (

@@ -22,7 +22,7 @@ export const AddCategoryForm = () => {
   };
 
   const handleOnSubmit = (e) =>{ e.preventDefault();
-      getCategory();
+  
 dispatch(addNewCategory(category));
 
 }

@@ -9,6 +9,7 @@ const DefaultLayout = ({ children }) => {
     <div className="default-layout">
       <div className="left-bar">
         <div className="admin-logo p-2 mb-5">Admin Panel</div>
+        <hr className="divider"></hr>
         <SideBarNav />
       </div>
       <div className="main">
