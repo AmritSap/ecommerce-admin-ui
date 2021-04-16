@@ -7,9 +7,9 @@ const initialState = {
   categoryList: [],
 };
 
-
-
-const categorySlice = createSlice({ name: "category",initialState,
+const categorySlice = createSlice({
+  name: "category",
+  initialState,
   reducers: {
     requestPending: (state) => {
       state.isLoading = true;
@@ -20,7 +20,13 @@ const categorySlice = createSlice({ name: "category",initialState,
       state.message = payload.message;
     },
     fetchAllCategorySuccess: (state, { payload }) => {
-      state.categoryList = payload;
+      state.categoryList = payload.result;
+      state.isLoading = false;
+    },
+       deleteCategorySuccess: (state, { payload }) => {
+      state.isLoading = false;
+      state.status = payload.status;
+      state.message = payload.message;
     },
     requestFail: (state) => {
       state.isLoading = false;
@@ -34,5 +40,6 @@ export const {
   addCategorySuccess,
   fetchAllCategorySuccess,
   requestFail,
+  deleteCategorySuccess,
 } = actions;
 export default reducer;

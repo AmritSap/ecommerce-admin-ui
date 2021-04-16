@@ -1,16 +1,22 @@
-import React, { useState } from "react";
-import {useDispatch,useSelector} from 'react-redux'
+import React, { useState,useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Col, Button, Form, Spinner, Alert } from "react-bootstrap";
 import { saveCategory, getCategory } from "../../apis/categoryAPI";
-import addNewCategory from "../../pages/category/CategoryAction.js";
+import {
+  addNewCategory,
+  fetchcategories,
+} from "../../pages/category/CategoryAction.js";
 
 const initialState = {
   name: "",
-  parentCategory: "0",
 };
 export const AddCategoryForm = () => {
-  const dispatch=useDispatch();
-  const {isLoading,status,message}=useSelector(state=>state.category)
+  const dispatch = useDispatch();
+  const { isLoading, status, message, categoryList } = useSelector(
+    (state) => state.category
+  );
+  useEffect(()=>{dispatch(fetchcategories())},[dispatch])
+  
   const [category, setCategory] = useState(initialState);
 
   const handleOnChange = (e) => {
@@ -21,23 +27,23 @@ export const AddCategoryForm = () => {
     });
   };
 
-  const handleOnSubmit = (e) =>{ e.preventDefault();
-  
-dispatch(addNewCategory(category));
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
 
-}
-  
+    dispatch(addNewCategory(category));
+  };
+
   // we going to find the way to call sever
 
   return (
     <div className="add-category-form">
-      {
-        isLoading && <Spinner variant="primary" animation="border"></Spinner>
-      }
+      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
 
-      {
-        message && <Alert variant={status ==='sucess' ? 'success' :'danger'}>{message}</Alert>
-      }
+      {message && (
+        <Alert variant={status === "sucess" ? "success" : "danger"}>
+          {message}
+        </Alert>
+      )}
       <Form onSubmit={handleOnSubmit}>
         <Form.Row>
           <Form.Group as={Col} controlId="">
@@ -58,10 +64,14 @@ dispatch(addNewCategory(category));
               as="select"
               name="parentCategory"
               onChange={handleOnChange}
-              defaultValue={category.parentCategory}
+              // defaultValue={category.parentCategory}
             >
               <option>Choose...</option>
-              <option>...</option>
+              {categoryList?.map((row, i) => (
+                <option key={i} value={row._id}>
+                  {row.name}
+                </option>
+              ))}
             </Form.Control>
           </Form.Group>
         </Form.Row>

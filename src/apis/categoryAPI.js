@@ -28,3 +28,16 @@ export const saveCategory =  frmDt =>{
        }
      });
    };
+
+      export const deleteCategory = (idArg) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const { data } = await axios.delete(catApi,{data:idArg});
+
+            resolve(data);
+          } catch (error) {
+            reject(error);
+          }
+        });
+      };
+   
