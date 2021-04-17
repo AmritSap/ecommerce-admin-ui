@@ -72,7 +72,9 @@ export const ListCategory = () => {
                       </Button>
                     </span>
                     {showForm === itm._id && (
-                      <EditCategoryForm categoryEdit={itm} />
+                      <EditCategoryForm
+                        categoryEdit={(categoryList, categoryList._id)}
+                      />
                     )}
                   </ListGroup.Item>
                 )

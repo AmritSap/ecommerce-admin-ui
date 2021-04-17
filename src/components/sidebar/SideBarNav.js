@@ -17,7 +17,7 @@ export const SideBarNav = () => {
         </li>
         <li>
           {" "}
-          <Link to="/product">
+          <Link to="/products">
             <i className="fas fa-table"></i>Products
           </Link>
         </li>

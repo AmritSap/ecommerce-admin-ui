@@ -5,14 +5,18 @@ import { saveCategory, getCategory } from "../../apis/categoryAPI";
 import {
   addNewCategory,
   fetchcategories,
+  updateCategoryName,
 } from "../../pages/category/CategoryAction.js";
 
-export const EditCategoryForm = ({ categoryEdit }) => {
+export const EditCategoryForm = (categoryEdit) => {
+  const { item, itemId } = categoryEdit;
+
   const dispatch = useDispatch();
+
   const { isLoading, status, message, categoryList } = useSelector(
     (state) => state.category
   );
-  const [category, setCategory] = useState(categoryEdit);
+  const [category, setCategory] = useState(item);
   useEffect(() => {
     setCategory(category);
   }, [dispatch, category]);
@@ -23,6 +27,9 @@ export const EditCategoryForm = ({ categoryEdit }) => {
       ...category,
       [name]: value,
     });
+  };
+  const handleSaveChange = (itemId, categoryName, updatedName) => {
+    dispatch(updateCategoryName(itemId, categoryName, updatedName));
   };
 
   const handleOnSubmit = (e) => {
@@ -37,15 +44,15 @@ export const EditCategoryForm = ({ categoryEdit }) => {
     <div className="add-category-form">
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
 
-      {message && (
+      {/* {message && (
         <Alert variant={status === "sucess" ? "success" : "danger"}>
           {message}
         </Alert>
-      )}
+      )} */}
       <Form onSubmit={handleOnSubmit}>
         <Form.Group as={Col} controlId="">
           <Form.Control
-            value={category.name}
+            value={category?.name}
             name="name"
             type="text"
             onChange={handleOnChange}
@@ -54,8 +61,12 @@ export const EditCategoryForm = ({ categoryEdit }) => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={() => handleSaveChange(itemId, item, category.name)}
+        >
+          Save Changes
         </Button>
       </Form>
     </div>

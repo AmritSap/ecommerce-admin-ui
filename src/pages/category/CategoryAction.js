@@ -2,6 +2,7 @@ import {
   saveCategory,
   getCategory,
   deleteCategory,
+  updateCategory,
 } from "../../apis/categoryAPI.js";
 import {
   requestPending,
@@ -9,9 +10,10 @@ import {
   fetchAllCategorySuccess,
   requestFail,
   deleteCategorySuccess,
+  updateCategorySuccess,
 } from "./categorySlice.js";
 
- export const addNewCategory = (frmDt) => async (dispatch) => {
+export const addNewCategory = (frmDt) => async (dispatch) => {
   // call API or reducer to update the state
 
   try {
@@ -27,7 +29,7 @@ import {
     dispatch(requestFail(err));
   }
 };
- export const fetchcategories = () => async (dispatch) => {
+export const fetchcategories = () => async (dispatch) => {
   // call API or reducer to update the state
 
   try {
@@ -43,23 +45,41 @@ import {
   }
 };
 
- export const deleteCategories = (idArg) => async (dispatch) => {
-   // call API or reducer to update the state
+export const deleteCategories = (idArg) => async (dispatch) => {
+  // call API or reducer to update the state
 
-   try {
-     dispatch(requestPending());
-     const result = await deleteCategory(idArg); /////status message
-     dispatch(deleteCategorySuccess(result));
-      result.status === "sucess" && dispatch(fetchcategories());
-   } catch (error) {
-     const err = {
-       status: "error",
-       message: error.message,
-     };
-     dispatch(requestFail(err));
-   }
- };
+  try {
+    dispatch(requestPending());
+    const result = await deleteCategory(idArg); /////status message
+    dispatch(deleteCategorySuccess(result));
+    result.status === "sucess" && dispatch(fetchcategories());
+  } catch (error) {
+    const err = {
+      status: "error",
+      message: error.message,
+    };
+    dispatch(requestFail(err));
+  }
+};
 
+export const updateCategoryName = (itemId, categoryName, updatedName) => async (
+  dispatch
+) => {
+  // call API or reducer to update the state
 
+  try {
+    dispatch(requestPending());
 
+    const result = await updateCategory(itemId, categoryName, updatedName);
+    /////status message
+    dispatch(updateCategorySuccess(result));
 
+    result.status === "sucess" && dispatch(fetchcategories());
+  } catch (error) {
+    const err = {
+      status: "error",
+      message: error.message,
+    };
+    dispatch(requestFail(err));
+  }
+};
