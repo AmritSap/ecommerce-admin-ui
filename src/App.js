@@ -7,6 +7,7 @@ import Category from "./pages/category/Category.js";
 import Product from "./pages/product/Product.js";
 import AddProduct from "./pages/product/AddProduct.js";
 import PasswordReset from "./pages/password-reset/Password-reset";
+import EditProduct from "./pages/edit-product/EditProduct";
 function App() {
   return (
     <div className="App">
@@ -23,9 +24,15 @@ function App() {
           <Route path="/products">
             <Product />
           </Route>
-          <Route path="/product/new">
+
+          <Route exact path="/productt/new">
             <AddProduct />
           </Route>
+
+          <Route exact path="/product/:_id">
+            <EditProduct />
+          </Route>
+
           <Route path="/reset-password">
             <PasswordReset />
           </Route>

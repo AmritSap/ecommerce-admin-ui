@@ -41,14 +41,10 @@ export const saveCategory =  frmDt =>{
         });
       };
    
-        export const updateCategory = (itemId, categoryName, updatedName) => {
+        export const updateCategory = (frmDt) => {
           return new Promise(async (resolve, reject) => {
             try {
-              const { data } = await axios.patch(catApi, {
-                data: itemId,
-                categoryName,
-                updatedName,
-              });
+              const { data } = await axios.patch(catApi, frmDt);
 
               resolve(data);
             } catch (error) {

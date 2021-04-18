@@ -1,40 +1,80 @@
-import React from 'react'
-import {Table} from "react-bootstrap"
+import React, { useEffect } from "react";
+import { Table, Alert, Spinner, Row, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchProduct,
+  deleteProduct,
+} from "../../pages/product/ProductAction.js";
 
-const ProductListTable = () => {
-    return (
-      <div>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td colSpan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
-    );
-}
+export const ProductListTable = () => {
+  const { isLoading, status, deleteMsg, productList } = useSelector(
+    (state) => state.product
+  );
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-export default ProductListTable
+  useEffect(() => {
+    dispatch(fetchProduct());
+  }, [dispatch]);
+
+  const handleOnDelete = (_id) => {
+    if (window.confirm("Delete?")) {
+      dispatch(deleteProduct(_id));
+    }
+  };
+
+  return (
+    <div>
+      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+
+      {deleteMsg && (
+        <Alert variant={status === "success" ? "success" : "danger"}>
+          {deleteMsg}
+        </Alert>
+      )}
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Status</th>
+            <th>Thumbnail</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {productList?.map((row, i) => {
+            return (
+              <tr key={row._id}>
+                <td>{i} </td>
+                <td>{row.status}</td>
+                <td>put img here</td>
+                <td>{row.name}</td>
+                <td>{row.price}</td>
+                <td>
+                  <Button
+                    variant="success"
+                    onClick={() => history.push(`/product/${row._id}`)}
+                  >
+                    Edit
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleOnDelete(row._id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    </div>
+  );
+};

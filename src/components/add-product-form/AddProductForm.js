@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
+import { addNewProduct } from "../../pages/product/ProductAction.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert, Spinner } from "react-bootstrap";
+
 
 const initialState = {
   name: "",
@@ -14,17 +18,29 @@ const initialState = {
 };
 
 const AddProductForm = () => {
+  const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState(initialState);
+  const { isLoading, status, message } = useSelector((state) => state.product);
+
+
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setNewProduct({ ...newProduct, [name]: value });
   };
   const handleOnSubmit = (e) => {
+    dispatch(addNewProduct(newProduct));
     e.preventDefault();
   };
   return (
     <div>
+      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+
+      {message && (
+        <Alert variant={status === "sucess" ? "success" : "danger"}>
+          {message}
+        </Alert>
+      )}
       <Form onSubmit={handleOnSubmit}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>name</Form.Label>

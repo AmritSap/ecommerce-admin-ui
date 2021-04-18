@@ -3,7 +3,7 @@ import { Button, ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "../layout/defaultlayout.style.css";
 import { deleteCategories } from "../../pages/category/CategoryAction.js";
-import { EditCategoryForm } from "../add-category-form copy/EditCategoryForm";
+import { EditCategoryForm } from "../edit-category-forms/EditCategoryForm";
 export const ListCategory = () => {
   const dispatch = useDispatch();
   const { categoryList } = useSelector((state) => state.category);
