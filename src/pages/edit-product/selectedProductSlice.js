@@ -14,11 +14,11 @@ const selectedProductSlice = createSlice({
     requestPending: (state) => {
       state.isLoading = true;
     },
-    // addProductSuccess: (state, { payload }) => {
-    //   state.isLoading = false;
-    //   state.status = payload.status;
-    //   state.message = payload.message;
-    // },
+    updateProductSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      state.status = payload.status;
+      state.message = payload.message;
+    },
     fetchProductSuccess: (state, { payload }) => {
       state.isLoading = false;
       state.product = payload.result || {};
@@ -40,6 +40,8 @@ export const {
   requestPending,
   fetchProductSuccess,
   requestFail,
+  updateProductSuccess,
+
   // deleteCategorySuccess,
   // updateCategorySuccess,
 } = actions;

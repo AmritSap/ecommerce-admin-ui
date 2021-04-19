@@ -6,6 +6,7 @@ import {
   addNewCategory,
   fetchcategories,
   updateCategoryName,
+ 
 } from "../../pages/category/CategoryAction.js";
 
 
@@ -36,6 +37,7 @@ export const EditCategoryForm = (categoryEdit) => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    // dispatch(updateAProduct(editProduct));
 
     // dispatch(addNewCategory(category));
   };

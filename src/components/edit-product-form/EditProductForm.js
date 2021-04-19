@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
-import { fetchAProduct } from "../../pages/edit-product/editProductAction";
+import {
+  fetchAProduct,
+  updateAProduct,
+} from "../../pages/edit-product/editProductAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 const initialState = {
   name: "",
+  slug: "",
   qty: 0.0,
-  isAvailable: true,
+  status: true,
   price: 0.0,
   salePrice: 0.0,
-  saleEndDate: null,
+  saleEndDate: Date(),
   description: "",
   images: [],
   categories: [],
@@ -21,7 +25,6 @@ const EditProductForm = () => {
   const dispatch = useDispatch();
   const { _id } = useParams();
 
-  console.log(useParams(), "fromcomponent 1");
   const [editProduct, setEditProduct] = useState(initialState);
   const { isLoading, status, message, product } = useSelector(
     (state) => state.selectedProduct
@@ -42,14 +45,18 @@ const EditProductForm = () => {
     const { name, value, checked } = e.target;
     let val = value;
     console.log(name, value, checked);
-    if (name === "isAvailable") {
-      value = checked;
+    if (name === "status") {
+      val = checked;
     }
     setEditProduct({ ...editProduct, [name]: val });
   };
+
   const handleOnSubmit = (e) => {
-    console.log(editProduct);
     e.preventDefault();
+
+    // removes the __v from database
+    const { __v, ...restProduct } = editProduct;
+    dispatch(updateAProduct(restProduct));
   };
 
   return (
@@ -75,20 +82,32 @@ const EditProductForm = () => {
               placeholder="Enter product name"
               required
             />
-            {/* <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text> */}
           </Form.Group>
+
           <Form.Group>
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>slug</Form.Label>
+              <Form.Control
+                name="slug"
+                type="text"
+                value={editProduct.slug}
+                onChange={handleOnChange}
+                disabled
+                required
+              />
+            </Form.Group>
+
+            <Form.Group></Form.Group>
             <Form.Check
               type="switch"
-              id="custom-switch"
-              label="Avaliable"
-              name="isAavailable"
-              checked={editProduct.isAvailable}
+              id="status"
+              label="Available"
+              name="status"
+              checked={editProduct.status}
               onChange={handleOnChange}
             />
           </Form.Group>
+
           <Form.Group>
             <Form.Label>Price</Form.Label>
             <Form.Control
@@ -96,6 +115,7 @@ const EditProductForm = () => {
               type="number"
               value={editProduct.price}
               onChange={handleOnChange}
+              placeholder="45.0"
               required
             />
           </Form.Group>
@@ -110,12 +130,13 @@ const EditProductForm = () => {
               required
             />
           </Form.Group>
+
           <Form.Group>
             <Form.Label>Sale End Date</Form.Label>
             <Form.Control
               name="saleEndDate"
-              type="Date"
-              placeholder="45.0 "
+              type="date"
+              placeholder="45.0"
               value={editProduct.saleEndDate}
               onChange={handleOnChange}
             />
@@ -132,6 +153,7 @@ const EditProductForm = () => {
               onChange={handleOnChange}
             />
           </Form.Group>
+
           <Form.Group controlId="formBasicCheckbox">
             <Form.Label>Description</Form.Label>
             <Form.Control
@@ -146,33 +168,6 @@ const EditProductForm = () => {
             />
           </Form.Group>
 
-          {/* <Form.Group>
-          <Form.File
-            name="images"
-            value={newProduct.images}
-            onChange={handleOnChange}
-            id="exampleFormControlFile1"
-            label="Images"
-          />
-        </Form.Group> */}
-
-          {/* <Form.Group controlId="exampleForm.ControlSelect2">
-          <Form.Label>Select Categories</Form.Label>
-          <Form.Control
-            name="categories"
-            defaultValue={newProduct.categories}
-            onChange={handleOnChange}
-            as="select"
-            multiple
-            required
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Form.Control>
-        </Form.Group> */}
           <Button variant="primary" type="submit">
             Save Changes
           </Button>

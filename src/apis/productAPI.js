@@ -14,6 +14,7 @@ export const saveProduct = (frmDt) => {
   });
 };
 
+
 export const getProduct = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -26,12 +27,23 @@ export const getProduct = () => {
   });
 };
 
+
 // gets the single product
 export const getAProduct = (_id) => {
-  console.log(_id, "from api");
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(prodApi + "/" + _id);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const updateProduct = (fromDt) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data } = await axios.put(prodApi, fromDt);
 
       resolve(data);
     } catch (error) {

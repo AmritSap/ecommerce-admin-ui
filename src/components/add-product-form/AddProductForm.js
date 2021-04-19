@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { addNewProduct } from "../../pages/product/ProductAction.js";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Spinner } from "react-bootstrap";
 
-
 const initialState = {
   name: "",
-  qty: 0.0,
-  isAvailable: "off",
-  price: 0.0,
-  salePrice: 0.0,
+  qty: 0,
+  status: true,
+  price: 0,
+  salePrice: 0,
   saleEndDate: null,
   description: "",
   images: [],
@@ -20,18 +19,20 @@ const initialState = {
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState(initialState);
+
   const { isLoading, status, message } = useSelector((state) => state.product);
-
-
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+
     setNewProduct({ ...newProduct, [name]: value });
   };
+
   const handleOnSubmit = (e) => {
     dispatch(addNewProduct(newProduct));
     e.preventDefault();
   };
+
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
@@ -52,13 +53,19 @@ const AddProductForm = () => {
             placeholder="Enter product name"
             required
           />
-          {/* <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text> */}
         </Form.Group>
+
         <Form.Group>
-          <Form.Check type="switch" id="custom-switch" label="Avaliable" />
+          <Form.Check
+            name="status"
+            id="isAvailable"
+            type="switch"
+            label="Available"
+            value={newProduct.status}
+            onChange={handleOnChange}
+          />
         </Form.Group>
+
         <Form.Group>
           <Form.Label>Price</Form.Label>
           <Form.Control
@@ -66,6 +73,7 @@ const AddProductForm = () => {
             type="number"
             value={newProduct.price}
             onChange={handleOnChange}
+            placeholder="45.0"
             required
           />
         </Form.Group>

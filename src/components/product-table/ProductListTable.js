@@ -8,11 +8,13 @@ import {
 } from "../../pages/product/ProductAction.js";
 
 export const ProductListTable = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+
   const { isLoading, status, deleteMsg, productList } = useSelector(
     (state) => state.product
   );
-  const dispatch = useDispatch();
-  const history = useHistory();
+
 
   useEffect(() => {
     dispatch(fetchProduct());
@@ -29,7 +31,7 @@ export const ProductListTable = () => {
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
 
       {deleteMsg && (
-        <Alert variant={status === "success" ? "success" : "danger"}>
+        <Alert variant={status === "sucess" ? "success" : "danger"}>
           {deleteMsg}
         </Alert>
       )}
@@ -49,14 +51,18 @@ export const ProductListTable = () => {
           {productList?.map((row, i) => {
             return (
               <tr key={row._id}>
-                <td>{i} </td>
-                <td>{row.status}</td>
+                <td>{i+1} </td>
+                <td>
+                  {row.status ? (<i class="fas fa-check-circle text-success"></i>):
+                  
+                  (<i class="fas fa-times-circle text-danger"></i>)}
+                </td>
                 <td>put img here</td>
                 <td>{row.name}</td>
                 <td>{row.price}</td>
                 <td>
                   <Button
-                    variant="success"
+                    variant="primary"
                     onClick={() => history.push(`/product/${row._id}`)}
                   >
                     Edit
