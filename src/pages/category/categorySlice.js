@@ -5,6 +5,9 @@ const initialState = {
   status: "",
   message: "",
   categoryList: [],
+  show: false,
+  selectedCategory: {},
+  updateCatResponse: {},
 };
 
 const categorySlice = createSlice({
@@ -14,38 +17,59 @@ const categorySlice = createSlice({
     requestPending: (state) => {
       state.isLoading = true;
     },
+
     addCategorySuccess: (state, { payload }) => {
       state.isLoading = false;
       state.status = payload.status;
       state.message = payload.message;
     },
+
     fetchAllCategorySuccess: (state, { payload }) => {
       state.categoryList = payload.result;
       state.isLoading = false;
     },
-    deleteCategorySuccess: (state, { payload }) => {
+
+    deleteCatsSuccess: (state, { payload }) => {
       state.isLoading = false;
       state.status = payload.status;
       state.message = payload.message;
     },
+
     updateCategorySuccess: (state, { payload }) => {
       state.isLoading = false;
+      state.updateCatResponse = payload;
+    },
+
+    toggleCategoryEditModal: (state) => {
+      state.show = !state.show;
+      if (!state.show) {
+        state.updateCatResponse = {};
+      }
+    },
+
+    selectACategory: (state, { payload }) => {
+      state.selectedCategory = payload;
+    },
+
+    requestFail: (state, { payload }) => {
+      state.isLoading = false;
       state.status = payload.status;
       state.message = payload.message;
-    },
-    requestFail: (state) => {
-      state.isLoading = false;
     },
   },
 });
 
 const { reducer, actions } = categorySlice;
+
 export const {
   requestPending,
   addCategorySuccess,
   fetchAllCategorySuccess,
-  requestFail,
-  deleteCategorySuccess,
+  toggleCategoryEditModal,
+  selectACategory,
+  deleteCatsSuccess,
   updateCategorySuccess,
+  requestFail,
 } = actions;
+
 export default reducer;

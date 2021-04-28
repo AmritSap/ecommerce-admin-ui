@@ -1,6 +1,6 @@
 import React from "react";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import EditProductForm from "../../components/edit-product-form/EditProductForm"
+import {EditProductForm} from "../../components/edit-product-form/EditProductForm"
 import { Card } from "react-bootstrap";
 
 import {useParams} from "react-router-dom";

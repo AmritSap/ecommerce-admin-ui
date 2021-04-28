@@ -1,85 +1,89 @@
 import {
-  saveCategory,
-  getCategory,
-  deleteCategory,
-  updateCategory,
-} from "../../apis/categoryAPI.js";
-import {
   requestPending,
   addCategorySuccess,
   fetchAllCategorySuccess,
   requestFail,
-  deleteCategorySuccess,
+  deleteCatsSuccess,
   updateCategorySuccess,
-} from "./categorySlice.js";
+} from "./categorySlice";
+
+import {
+  saveCategory,
+  getCategories,
+  deleteCategories,
+  updateCategory,
+} from "../../apis/categoryAPI";
 
 export const addNewCategory = (frmDt) => async (dispatch) => {
-  // call API or reducer to update the state
-
   try {
     dispatch(requestPending());
-    const result = await saveCategory(frmDt); /////status message
+
+    const result = await saveCategory(frmDt); //{status, message}
+
     dispatch(addCategorySuccess(result));
-    result.status === "sucess" && dispatch(fetchcategories());
+
+    result.status === "success" && dispatch(fetchCategories());
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };
-export const fetchcategories = () => async (dispatch) => {
-  // call API or reducer to update the state
 
+export const fetchCategories = () => async (dispatch) => {
   try {
     dispatch(requestPending());
-    const result = await getCategory(); /////status message
+
+    const result = await getCategories(); //{status, message, result:[]}
+
     dispatch(fetchAllCategorySuccess(result));
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };
 
-export const deleteCategories = (idArg) => async (dispatch) => {
-  // call API or reducer to update the state
-
+export const removeCategories = (idArg) => async (dispatch) => {
   try {
     dispatch(requestPending());
-    const result = await deleteCategory(idArg); /////status message
-    dispatch(deleteCategorySuccess(result));
-    result.status === "sucess" && dispatch(fetchcategories());
+
+    const result = await deleteCategories(idArg); //{status, message, result:[]}
+
+    dispatch(deleteCatsSuccess(result));
+
+    result.status === "success" && dispatch(fetchCategories());
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };
 
-export const updateCategoryName = (itemId, categoryName, updatedName) => async (
-  dispatch
-) => {
-  // call API or reducer to update the state
-
+export const categoryUpdate = (formData) => async (dispatch) => {
   try {
     dispatch(requestPending());
 
-    const result = await updateCategory(itemId, categoryName, updatedName);
-    /////status message
+    const result = await updateCategory(formData); //{status, message, result:[]}
+
     dispatch(updateCategorySuccess(result));
 
-    result.status === "sucess" && dispatch(fetchcategories());
+    result.status === "success" && dispatch(fetchCategories());
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };

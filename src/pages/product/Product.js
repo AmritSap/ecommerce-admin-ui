@@ -1,6 +1,6 @@
 import React from "react";
 import DefaultLayout from "../../components/layout/DefaultLayout";
-import { ProductListTable } from "../../components/product-table/ProductListTable.js";
+import  ProductListTable  from "../../components/product-table/ProductListTable.js";
 import { Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 const Product = () => {
@@ -9,7 +9,7 @@ const Product = () => {
     <DefaultLayout>
       <div className="product">
         <h1>Products</h1>
-        <Button variant="success" onClick={() => history.push("/productt/new")}>
+        <Button variant="success" onClick={() => history.push("/product/new")}>
           Add new Product
         </Button>
         <div className="product-lists">

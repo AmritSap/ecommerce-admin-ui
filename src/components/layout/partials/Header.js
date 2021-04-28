@@ -1,7 +1,20 @@
 import React from "react";
 import { Navbar } from "react-bootstrap";
+import {logout} from  "../../../pages/login/loginAction"
+
+import {useDispatch,} from "react-redux"
+import {useHistory,Link} from "react-router-dom"
+
 
 const Header = () => {
+         const dispatch = useDispatch();
+           const history = useHistory();
+  const  handleOnLogOut = () =>{
+  
+  dispatch(logout())
+  history.push("/")
+
+  }
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Toggle />
@@ -9,7 +22,7 @@ const Header = () => {
         <Navbar.Text>
           <i className="fas fa-bell text-success"></i>
         </Navbar.Text>
-        <Navbar.Text>
+        <Navbar.Text onClick={handleOnLogOut} style={{cursor:"pointer"}}>
           <i className="fas fa-user text-primary"></i> Log Out
         </Navbar.Text>
       </Navbar.Collapse>

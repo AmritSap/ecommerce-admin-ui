@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { addNewProduct } from "../../pages/product/ProductAction.js";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Spinner } from "react-bootstrap";
+import { ProductCatList } from "../../components/product-category-list/ProductCatList";
 
 const initialState = {
   name: "",
@@ -10,7 +11,7 @@ const initialState = {
   status: true,
   price: 0,
   salePrice: 0,
-  saleEndDate: null,
+  saleEndDate: "",
   description: "",
   images: [],
   categories: [],
@@ -19,30 +20,61 @@ const initialState = {
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const [newProduct, setNewProduct] = useState(initialState);
-
+  const [images, setImages] = useState([]);
   const { isLoading, status, message } = useSelector((state) => state.product);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-
     setNewProduct({ ...newProduct, [name]: value });
   };
 
   const handleOnSubmit = (e) => {
-    dispatch(addNewProduct(newProduct));
     e.preventDefault();
+    const formData = new FormData();
+
+    Object.keys(newProduct).map((key) => {
+      key !== "images" && formData.append(key, newProduct[key]);
+    });
+    images.length &&
+      [...images].map((image) => {
+        formData.append("images", image);
+      });
+    dispatch(addNewProduct(formData));
+  };
+
+  const handleOnImageSelect = (e) => {
+    const { files } = e.target;
+    setImages(files);
+  };
+
+  const onCatSelect = (e) => {
+    const { checked, value } = e.target;
+    if (checked) {
+      // put _id inside the array
+      setNewProduct({
+        ...newProduct,
+        categories: [...newProduct.categories, value],
+      });
+    } else {
+      //  take_id ou of aaarraya
+      const updatedCatIds = newProduct.categories.filter((id) => id !== value);
+      setNewProduct({
+        ...newProduct,
+        categories: updatedCatIds,
+      });
+    }
   };
 
   return (
     <div>
-      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+      {/* {isLoading && <Spinner variant="primary" animation="border"></Spinner>} */}
 
       {message && (
         <Alert variant={status === "sucess" ? "success" : "danger"}>
           {message}
         </Alert>
       )}
-      <Form onSubmit={handleOnSubmit}>
+      <Form onSubmit={handleOnSubmit} enctype="multipart/form-data">
         <Form.Group controlId="formBasicEmail">
           <Form.Label>name</Form.Label>
           <Form.Control
@@ -51,21 +83,18 @@ const AddProductForm = () => {
             value={newProduct.name}
             onChange={handleOnChange}
             placeholder="Enter product name"
-            required
           />
         </Form.Group>
-
         <Form.Group>
           <Form.Check
             name="status"
             id="isAvailable"
             type="switch"
-            label="Available"
+            label="status"
             value={newProduct.status}
             onChange={handleOnChange}
           />
         </Form.Group>
-
         <Form.Group>
           <Form.Label>Price</Form.Label>
           <Form.Control
@@ -98,7 +127,6 @@ const AddProductForm = () => {
             onChange={handleOnChange}
           />
         </Form.Group>
-
         <Form.Group controlId="formBasicCheckbox">
           <Form.Label>Quantity</Form.Label>
           <Form.Control
@@ -124,16 +152,17 @@ const AddProductForm = () => {
           />
         </Form.Group>
 
-        {/* <Form.Group>
+        <Form.Group>
           <Form.File
             name="images"
-            value={newProduct.images}
-            onChange={handleOnChange}
+            // value={newProduct.images}
+            multiple
+            onChange={handleOnImageSelect}
             id="exampleFormControlFile1"
-            label="Images"
+            label="Images file only"
+            accept="image/"
           />
-        </Form.Group> */}
-
+        </Form.Group>
         {/* <Form.Group controlId="exampleForm.ControlSelect2">
           <Form.Label>Select Categories</Form.Label>
           <Form.Control
@@ -151,6 +180,13 @@ const AddProductForm = () => {
             <option>5</option>
           </Form.Control>
         </Form.Group> */}
+        <hr></hr>
+        <Form.Label>Select Categories</Form.Label>
+        <ProductCatList
+          onCatSelect={onCatSelect}
+          selectedCatIds={newProduct.categories}
+        />
+        <hr></hr>
         <Button variant="primary" type="submit">
           Submit
         </Button>

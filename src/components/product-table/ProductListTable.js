@@ -1,37 +1,34 @@
 import React, { useEffect } from "react";
-import { Table, Alert, Spinner, Row, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Alert, Button, Image, Spinner, Table } from "react-bootstrap";
 import {
-  fetchProduct,
+  fetchProducts,
   deleteProduct,
-} from "../../pages/product/ProductAction.js";
+} from "../../pages/product/ProductAction";
 
-export const ProductListTable = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
+const ProductListTable = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const { isLoading, status, deleteMsg, productList } = useSelector(
     (state) => state.product
   );
 
-
   useEffect(() => {
-    dispatch(fetchProduct());
+    dispatch(fetchProducts());
   }, [dispatch]);
 
   const handleOnDelete = (_id) => {
-    if (window.confirm("Delete?")) {
-      dispatch(deleteProduct(_id));
-    }
+    dispatch(deleteProduct(_id));
   };
 
   return (
     <div>
-      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+      {isLoading && <Spinner variant="primary" animation="border" />}
 
       {deleteMsg && (
-        <Alert variant={status === "sucess" ? "success" : "danger"}>
+        <Alert variant={status === "success" ? "success" : "danger"}>
           {deleteMsg}
         </Alert>
       )}
@@ -43,21 +40,30 @@ export const ProductListTable = () => {
             <th>Thumbnail</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Edit</th>
+            <th> Edit </th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {productList?.map((row, i) => {
-            return (
+          {productList.length &&
+            productList.map((row, i) => (
               <tr key={row._id}>
-                <td>{i+1} </td>
+                <td>{i + 1}</td>
                 <td>
-                  {row.status ? (<i class="fas fa-check-circle text-success"></i>):
-                  
-                  (<i class="fas fa-times-circle text-danger"></i>)}
+                  {row.status ? (
+                    <i class="fas fa-check-circle text-success"></i>
+                  ) : (
+                    <i class="fas fa-times-circle text-danger"></i>
+                  )}
                 </td>
-                <td>put img here</td>
+                <td>
+                  <Image
+                    src={row.images[0]}
+                    width="80px"
+                    height="auto"
+                    alt="product image"
+                  />
+                </td>
                 <td>{row.name}</td>
                 <td>{row.price}</td>
                 <td>
@@ -66,7 +72,7 @@ export const ProductListTable = () => {
                     onClick={() => history.push(`/product/${row._id}`)}
                   >
                     Edit
-                  </Button>
+                  </Button>{" "}
                 </td>
                 <td>
                   <Button
@@ -74,13 +80,14 @@ export const ProductListTable = () => {
                     onClick={() => handleOnDelete(row._id)}
                   >
                     Delete
-                  </Button>
+                  </Button>{" "}
                 </td>
               </tr>
-            );
-          })}
+            ))}
         </tbody>
       </Table>
     </div>
   );
 };
+
+export default ProductListTable;

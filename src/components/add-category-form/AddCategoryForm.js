@@ -1,12 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Button, Form, Spinner, Alert } from "react-bootstrap";
-import { saveCategory, getCategory } from "../../apis/categoryAPI";
+
+import { Form, Col, Button, Spinner, Alert } from "react-bootstrap";
 
 import {
   addNewCategory,
-  fetchcategories,
-  
+  fetchCategories,
 } from "../../pages/category/CategoryAction.js";
 
 const initialState = {
@@ -14,15 +13,20 @@ const initialState = {
 };
 export const AddCategoryForm = () => {
   const dispatch = useDispatch();
+
   const { isLoading, status, message, categoryList } = useSelector(
     (state) => state.category
   );
-  useEffect(()=>{dispatch(fetchcategories())},[dispatch])
-  
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const [category, setCategory] = useState(initialState);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+
     setCategory({
       ...category,
       [name]: value,
@@ -31,18 +35,16 @@ export const AddCategoryForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-
     dispatch(addNewCategory(category));
+    ///we going to find the way to call our server
   };
-
-  // we going to find the way to call sever
 
   return (
     <div className="add-category-form">
-      {isLoading && <Spinner variant="primary" animation="border"></Spinner>}
+      {isLoading && <Spinner variant="primary" animation="border" />}
 
       {message && (
-        <Alert variant={status === "sucess" ? "success" : "danger"}>
+        <Alert variant={status === "success" ? "success" : "danger"}>
           {message}
         </Alert>
       )}
@@ -51,11 +53,11 @@ export const AddCategoryForm = () => {
           <Form.Group as={Col} controlId="">
             <Form.Label>New Category</Form.Label>
             <Form.Control
-              value={category.name}
               name="name"
               type="text"
+              value={category.name}
               onChange={handleOnChange}
-              placeholder="Enter new category"
+              placeholder="Enter New Category"
               required
             />
           </Form.Group>
@@ -64,9 +66,9 @@ export const AddCategoryForm = () => {
             <Form.Label>Select Parent Category</Form.Label>
             <Form.Control
               as="select"
-              name="parentCategory"
+              name="parentCat"
               onChange={handleOnChange}
-              // defaultValue={category.parentCategory}
+              // defaultValue={category.parentCat}
             >
               <option>Choose...</option>
               {categoryList?.map((row, i) => (
@@ -77,7 +79,6 @@ export const AddCategoryForm = () => {
             </Form.Control>
           </Form.Group>
         </Form.Row>
-
         <Button variant="primary" type="submit">
           Submit
         </Button>

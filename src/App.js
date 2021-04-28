@@ -8,37 +8,43 @@ import Product from "./pages/product/Product.js";
 import AddProduct from "./pages/product/AddProduct.js";
 import PasswordReset from "./pages/password-reset/Password-reset";
 import EditProduct from "./pages/edit-product/EditProduct";
+import {PrivateRoute} from "./components/privateRoute/PrivateRoute"
 function App() {
   return (
     <div className="App">
       <Router>
+        {" "}
         <Switch>
-          <Route path="/dashboard">
+          <PrivateRoute exact path="/dashboard">
             <Dashboard />
-          </Route>
+          </PrivateRoute>
 
-          <Route path="/category">
+          <PrivateRoute exact path="/category">
             <Category />
-          </Route>
+          </PrivateRoute>
 
-          <Route path="/products">
+          <PrivateRoute exact path="/products">
             <Product />
-          </Route>
+          </PrivateRoute>
 
-          <Route exact path="/productt/new">
+          <PrivateRoute exact path="/product/new">
             <AddProduct />
-          </Route>
+          </PrivateRoute>
 
-          <Route exact path="/product/:_id">
+          <PrivateRoute exact path="/product/:_id">
             <EditProduct />
-          </Route>
+          </PrivateRoute>
 
-          <Route path="/reset-password">
+          <Route exact path="/reset-password">
             <PasswordReset />
           </Route>
 
-          <Route path="/">
+          <Route exact path="/">
             <Login />
+          </Route>
+
+          <Route exact path="*">
+            <h1>404 page not found</h1>
           </Route>
         </Switch>
       </Router>

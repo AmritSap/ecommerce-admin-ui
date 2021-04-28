@@ -6,7 +6,12 @@ const prodApi = rootUrl + "product";
 export const saveProduct = (frmDt) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data } = await axios.post(prodApi, frmDt);
+      const { data } = await axios.post(prodApi, frmDt, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
+
       resolve(data);
     } catch (error) {
       reject(error);
@@ -14,8 +19,7 @@ export const saveProduct = (frmDt) => {
   });
 };
 
-
-export const getProduct = () => {
+export const getProducts = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(prodApi);
@@ -27,12 +31,11 @@ export const getProduct = () => {
   });
 };
 
-
-// gets the single product
 export const getAProduct = (_id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(prodApi + "/" + _id);
+
       resolve(data);
     } catch (error) {
       reject(error);
@@ -40,10 +43,10 @@ export const getAProduct = (_id) => {
   });
 };
 
-export const updateProduct = (fromDt) => {
+export const updateProduct = (formDt) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { data } = await axios.put(prodApi, fromDt);
+      const { data } = await axios.put(prodApi, formDt);
 
       resolve(data);
     } catch (error) {
@@ -63,19 +66,3 @@ export const productDelete = (_id) => {
     }
   });
 };
-
-//       export const updateCategory = (itemId, categoryName, updatedName) => {
-//         return new Promise(async (resolve, reject) => {
-//           try {
-//             const { data } = await axios.patch(catApi, {
-//               data: itemId,
-//               categoryName,
-//               updatedName,
-//             });
-
-//             resolve(data);
-//           } catch (error) {
-//             reject(error);
-//           }
-//         });
-//       };

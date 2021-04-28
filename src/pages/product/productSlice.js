@@ -4,8 +4,9 @@ const initialState = {
   isLoading: false,
   status: "",
   message: "",
-  deleteMsg:"",
+  deleteMsg: "",
   productList: [],
+
 };
 
 const productSlice = createSlice({
@@ -21,9 +22,8 @@ const productSlice = createSlice({
       state.message = payload.message;
     },
     fetchAllProductSuccess: (state, { payload }) => {
-        state.isLoading = false;
+      state.isLoading = false;
       state.productList = payload.result;
-    
     },
     deleteProductSuccess: (state, { payload }) => {
       state.isLoading = false;
@@ -35,6 +35,7 @@ const productSlice = createSlice({
     //   state.status = payload.status;
     //   state.message = payload.message;
     // },
+ 
     requestFail: (state) => {
       state.isLoading = false;
     },
@@ -48,6 +49,7 @@ export const {
   fetchAllProductSuccess,
   requestFail,
   deleteProductSuccess,
+  toggleCategoryEditModal,
   // deleteCategorySuccess,
   // updateCategorySuccess,
 } = actions;

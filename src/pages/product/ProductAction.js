@@ -1,49 +1,44 @@
 import {
-  saveProduct,
-  getProduct,
-  productDelete,
-  // getCategory,
-  // deleteCategory,
-  // updateCategory,
-} from "../../apis/productAPI.js";
-import {
   requestPending,
   addProductSuccess,
   fetchAllProductSuccess,
-  requestFail,
   deleteProductSuccess,
-  deleteCategorySuccess,
-  updateCategorySuccess,
-} from "./productSlice.js";
+  requestFail,
+} from "./productSlice";
+
+import { saveProduct, getProducts, productDelete } from "../../apis/productAPI";
 
 export const addNewProduct = (frmDt) => async (dispatch) => {
-  // call API or reducer to update the state
-
   try {
     dispatch(requestPending());
-    const result = await saveProduct(frmDt); /////status message
+
+    const result = await saveProduct(frmDt); //{status, message}
+
     dispatch(addProductSuccess(result));
-    result.status === "sucess" && dispatch(fetchProduct());
+
+    result.status === "success" && dispatch(fetchProducts());
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };
-export const fetchProduct = () => async (dispatch) => {
-  // call API or reducer to update the state
 
+export const fetchProducts = () => async (dispatch) => {
   try {
     dispatch(requestPending());
-    const result = await getProduct(); /////status message
+
+    const result = await getProducts(); //{status, message, result:[]}
     dispatch(fetchAllProductSuccess(result));
   } catch (error) {
     const err = {
       status: "error",
       message: error.message,
     };
+
     dispatch(requestFail(err));
   }
 };
@@ -56,7 +51,7 @@ export const deleteProduct = (_id) => async (dispatch) => {
 
     dispatch(deleteProductSuccess(result));
 
-    result.status === "sucess" && dispatch(fetchProduct());
+    result.status === "success" && dispatch(fetchProducts());
   } catch (error) {
     const err = {
       status: "error",
@@ -67,24 +62,21 @@ export const deleteProduct = (_id) => async (dispatch) => {
   }
 };
 
-// export const updateCategoryName = (itemId, categoryName, updatedName) => async (
-//   dispatch
-// ) => {
-//   // call API or reducer to update the state
+// export const removeCategories = idArg => async dispatch => {
+// 	try {
+// 		dispatch(requestPending());
 
-//   try {
-//     dispatch(requestPending());
+// 		const result = await deleteCategories(idArg); //{status, message, result:[]}
 
-//     const result = await updateCategory(itemId, categoryName, updatedName);
-//     /////status message
-//     dispatch(updateCategorySuccess(result));
+// 		dispatch(deleteCatsSuccess(result));
 
-//     result.status === "sucess" && dispatch(fetchcategories());
-//   } catch (error) {
-//     const err = {
-//       status: "error",
-//       message: error.message,
-//     };
-//     dispatch(requestFail(err));
-//   }
+// 		result.status === "success" && dispatch(fetchCategories());
+// 	} catch (error) {
+// 		const err = {
+// 			status: "error",
+// 			message: error.message,
+// 		};
+
+// 		dispatch(requestFail(err));
+// 	}
 // };
