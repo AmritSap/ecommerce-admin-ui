@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
 import "./passwordReset.style.css";
-
+import { useSelector, useDispatch } from "react-redux";
+import { reqOtpForNewPassword } from "../../pages/profile/ProfileAction";
 const PasswordResetForm = () => {
   const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
 
   // Hnadle on change gets the value when we type and set it to the local state
   const handleOnChange = (e) => {
@@ -15,6 +17,8 @@ const PasswordResetForm = () => {
   // HandleOnSubmit submits the form when we login
   const hnadleOnSubmit = (e) => {
     e.preventDefault();
+    if (!email) return alert("please enter email");
+    dispatch(reqOtpForNewPassword(email));
     console.log(email);
   };
 

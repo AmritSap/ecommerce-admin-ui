@@ -29,13 +29,13 @@ export const SideBarNav = () => {
         </li>
         <li>
           {" "}
-          <Link to="/dashboard">
+          <Link to="/users">
             <i className="fas fa-tachometer-alt"></i>Users
           </Link>
         </li>
         <li>
           {" "}
-          <Link to="/dashboard">
+          <Link to="/profile">
             <i className="fas fa-cogs"></i>Account
           </Link>
         </li>

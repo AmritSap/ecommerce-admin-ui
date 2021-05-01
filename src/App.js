@@ -8,7 +8,8 @@ import Product from "./pages/product/Product.js";
 import AddProduct from "./pages/product/AddProduct.js";
 import PasswordReset from "./pages/password-reset/Password-reset";
 import EditProduct from "./pages/edit-product/EditProduct";
-import {PrivateRoute} from "./components/privateRoute/PrivateRoute"
+import Profile from "./pages/profile/Profile";
+import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
 function App() {
   return (
     <div className="App">
@@ -33,6 +34,10 @@ function App() {
 
           <PrivateRoute exact path="/product/:_id">
             <EditProduct />
+          </PrivateRoute>
+
+          <PrivateRoute exact path="/profile">
+            <Profile />
           </PrivateRoute>
 
           <Route exact path="/reset-password">

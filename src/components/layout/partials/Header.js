@@ -2,16 +2,17 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import {logout} from  "../../../pages/login/loginAction"
 
-import {useDispatch,} from "react-redux"
+import {useDispatch,useSelector} from "react-redux"
 import {useHistory,Link} from "react-router-dom"
 
 
 const Header = () => {
          const dispatch = useDispatch();
            const history = useHistory();
+           const {adminProfile} =useSelector (state => state.profile)
   const  handleOnLogOut = () =>{
   
-  dispatch(logout())
+  dispatch(logout(adminProfile._id));
   history.push("/")
 
   }

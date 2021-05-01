@@ -27,8 +27,9 @@ const LoginForm = () => {
   // get the value from broewser
   useEffect(() => {
     !isAuth && dispatch(userAutoLogin());
-
-    if (isAuth) history.replace(from);
+    if (isAuth) history.push("/dashboard");
+   
+    // if (isAuth) history.replace(from);
   }, [isAuth]);
   // Hnadle on change gets the value when we type and set it to the local state
   const handleOnChange = (e) => {
@@ -40,6 +41,9 @@ const LoginForm = () => {
     console.log(login);
   };
 
+  //  if (loginResponse.status === "sucess") {
+  //    history.push("/dashboard");
+  //  }
   // HandleOnSubmit submits the form when we login
   const hnadleOnSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +53,7 @@ const LoginForm = () => {
     }
 
     dispatch(sendLogin(login));
-    // history.push("/dashboard");
+    // if (login?.loginResponse?.status === "sucess") history.push("/dashboard");
   };
 
   return (
@@ -57,12 +61,8 @@ const LoginForm = () => {
       <Card className="p-1">
         {isLoading && <Spinner variant="primary" animation="border" />}
 
-        {loginResponse?.status==="error" && (
-          <Alert
-            variant= "danger"
-          >
-            {loginResponse.message}
-          </Alert>
+        {loginResponse?.status === "error" && (
+          <Alert variant="danger">{loginResponse.message}</Alert>
         )}
         <Form onSubmit={hnadleOnSubmit}>
           <Form.Group controlId="formBasicEmail">

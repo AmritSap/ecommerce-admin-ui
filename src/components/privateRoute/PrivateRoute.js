@@ -8,18 +8,9 @@ export const PrivateRoute = ({ children, ...rest }) => {
   const { isAuth } = useSelector((state) => state.login);
 
   return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: location },
-            }}
-          />
+    <Route {...rest} render={({ location }) =>
+        isAuth ? ( children) : (<Redirect to={{pathname: "/",state: { from: location },}}
+    />
         )
       }
     />
